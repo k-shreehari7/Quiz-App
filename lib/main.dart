@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'quiz_brain.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
+Quiz_brain qb=Quiz_brain();
 void main() => runApp(Quizzler());
 
 class Quizzler extends StatelessWidget {
@@ -25,8 +28,18 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+
+  List<Icon> scorekeeper=[];
+  // List<String> question =['Is Cricket Included in the olympics','Did Neeraj Chopra Win Gold Medal for India','Is Rahul Dravid the greatest Batsman in Cricket'];
+  // List<bool> answers=[false,true,true];
+
   @override
   Widget build(BuildContext context) {
+    // Question q=new Question('Is Cricket Included in the olympics', false);
+
+
+
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -36,8 +49,7 @@ class _QuizPageState extends State<QuizPage> {
           child: Padding(
             padding: EdgeInsets.all(10.0),
             child: Center(
-              child: Text(
-                'This is where the question text will go.',
+              child: Text(qb.get_questionText(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -62,7 +74,32 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 //The user picked true.
+                if(qb.get_questionAnswer())
+                {
+                  scorekeeper.add(
+                    Icon(
+                      Icons.check,
+                      color: Colors.green,
+                    )
+                  );
+                }
+
+                else
+                {
+                  scorekeeper.add(
+                    Icon(
+                      Icons.close,
+                      color: Colors.red,
+                    )
+                  );
+                }
+                // question_number+=1;
+                qb.nextquestion();
+                setState(() {
+
+                });
               },
+
             ),
           ),
         ),
@@ -80,11 +117,36 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 //The user picked false.
+                if(qb.get_questionAnswer())
+                {
+                    scorekeeper.add(
+                      Icon(
+                        Icons.close,
+                        color: Colors.red,
+                      )
+                    );
+                }
+                else
+                {
+                    scorekeeper.add(
+                        Icon(
+                          Icons.check,
+                          color: Colors.green,
+                        )
+                    );
+                }
+                // question_number+=1;
+                qb.nextquestion();
+                setState(() {
+
+                });
               },
             ),
           ),
         ),
-        //TODO: Add a Row here as your score keeper
+        Row(
+          children:scorekeeper,
+        )
       ],
     );
   }
